@@ -12,7 +12,7 @@ namespace Supermarket.API.Persistence.Contexts
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,7 @@ namespace Supermarket.API.Persistence.Contexts
 
             modelBuilder.Entity<Category>().HasData
             (
-                new Category { Id = 100, Name = "Fruits and Vegetables"},
+                new Category { Id = 100, Name = "Fruits and Vegetables" },
                 new Category { Id = 101, Name = "Dairy" }
             );
 
@@ -36,6 +36,26 @@ namespace Supermarket.API.Persistence.Contexts
             modelBuilder.Entity<Product>().Property(p => p.Name).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Product>().Property(p => p.QuantityInPackage).IsRequired();
             modelBuilder.Entity<Product>().Property(p => p.UnitOfMeasurement).IsRequired();
+
+            modelBuilder.Entity<Product>().HasData
+            (
+                new Product
+                {
+                    Id = 100,
+                    Name = "Apple",
+                    QuantityInPackage = 1,
+                    UnitOfMeasurement = EUnitOfMeasurement.Unity,
+                    CategoryId = 100
+                },
+                new Product
+                {
+                    Id = 101,
+                    Name = "Milk",
+                    QuantityInPackage = 2,
+                    UnitOfMeasurement = EUnitOfMeasurement.Liter,
+                    CategoryId = 101,
+                }
+            );
         }
     }
 }
